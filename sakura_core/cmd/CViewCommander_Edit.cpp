@@ -837,7 +837,7 @@ void CViewCommander::Command_DELETE_BACK( void )
 	else{
 		CLayoutPoint	ptLayoutPos_Old = GetCaret().GetCaretLayoutPos();
 		CLogicPoint		ptLogicPos_Old = GetCaret().GetCaretLogicPos();
-		BOOL	bBool = Command_LEFT( false, false );
+		BOOL	bBool = Command_LEFT( false, false, true );
 		if( bBool ){
 			const CLayout* pcLayout = GetDocument()->m_cLayoutMgr.SearchLineByLayoutY( GetCaret().GetCaretLayoutPos().GetY2() );
 			if( pcLayout ){

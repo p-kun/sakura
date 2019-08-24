@@ -158,7 +158,7 @@ public:
 	void Command_MOVECURSORLAYOUT(CLayoutPoint pos, int option);
 	int Command_UP( bool bSelect, bool bRepeat, int line = 0 );			/* カーソル上移動 */
 	int Command_DOWN( bool bSelect, bool bRepeat );			/* カーソル下移動 */
-	int  Command_LEFT(bool bSelect, bool bRepeat);			/* カーソル左移動 */
+	int  Command_LEFT(bool bSelect, bool bRepeat, bool back = FALSE);			/* カーソル左移動 */
 	void Command_RIGHT( bool bSelect, bool bIgnoreCurrentSelection, bool bRepeat );	/* カーソル右移動 */
 	void Command_UP2( bool bSelect );				/* カーソル上移動（２行づつ） */
 	void Command_DOWN2( bool bSelect );				/* カーソル下移動（２行づつ） */

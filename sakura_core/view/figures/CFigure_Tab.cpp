@@ -159,6 +159,19 @@ void _DrawTabArrow(
 	COLORREF	pColor
 )
 {
+	gr.PushPen( pColor, 0 );
+
+	int sy = nPosY + ( nHeight / 2 );
+
+	::MoveToEx( gr, nPosX + 2, sy, NULL );
+	::LineTo( gr, nPosX, sy - 2 );
+	::MoveToEx( gr, nPosX + 2, sy, NULL );
+	::LineTo( gr, nPosX, sy + 2 );
+
+	gr.PopPen();
+
+
+#if 0
 	// ペン設定
 	gr.PushPen( pColor, 0 );
 
@@ -196,4 +209,5 @@ void _DrawTabArrow(
 	}
 
 	gr.PopPen();
+#endif
 }

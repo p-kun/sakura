@@ -152,7 +152,7 @@ int CViewCommander::Command_DOWN( bool bSelect, bool bRepeat )
 			位置に移動させられる．
 	@date 2014.01.10 Moca キーリピート時、MoveCursorを一度にまとめる
 */
-int CViewCommander::Command_LEFT( bool bSelect, bool bRepeat )
+int CViewCommander::Command_LEFT( bool bSelect, bool bRepeat, bool bBack )
 {
 	bool	bUnderlineDoNotOFF = true;	// アンダーラインを消去しない
 	if( bSelect ){
@@ -187,29 +187,31 @@ int CViewCommander::Command_LEFT( bool bSelect, bool bRepeat )
 			if( 0 < ptCaretMove.GetY2()
 			   && ! m_pCommanderView->GetSelectionInfo().IsBoxSelecting()
 			) {
-				// 前のレイアウト行の、折り返し桁一つ手前または改行文字の手前に移動する。
-				pcLayout = GetDocument()->m_cLayoutMgr.SearchLineByLayoutY( ptCaretMove.GetY2() - CLayoutInt(1) );
-				CMemoryIterator it = GetDocument()->m_cLayoutMgr.CreateCMemoryIterator(pcLayout);
-				while( !it.end() ){
-					it.scanNext();
-					if ( it.getIndex() + it.getIndexDelta() > pcLayout->GetLengthWithoutEOL() ){
-						ptPos.x += it.getColumnDelta();
-						break;
+				if( bBack ) {
+					// 前のレイアウト行の、折り返し桁一つ手前または改行文字の手前に移動する。
+					pcLayout = GetDocument()->m_cLayoutMgr.SearchLineByLayoutY( ptCaretMove.GetY2() - CLayoutInt(1) );
+					CMemoryIterator it = GetDocument()->m_cLayoutMgr.CreateCMemoryIterator(pcLayout);
+					while( !it.end() ){
+						it.scanNext();
+						if ( it.getIndex() + it.getIndexDelta() > pcLayout->GetLengthWithoutEOL() ){
+							ptPos.x += it.getColumnDelta();
+							break;
+						}
+						it.addDelta();
 					}
-					it.addDelta();
+					ptPos.x += it.getColumn() - it.getColumnDelta();
+					ptPos.y--;
 				}
-				ptPos.x += it.getColumn() - it.getColumnDelta();
-				ptPos.y --;
 			} else {
 				if( 0 < nRepCount ){
 					GetCaret().MoveCursor( ptCaretMove, true, _CARETMARGINRATE, bUnderlineDoNotOFF );
 					GetCaret().m_nCaretPosX_Prev = GetCaret().GetCaretLayoutPos().GetX2();
 				}
 				nRes = 0;
+				bUnderlineDoNotOFF = false;	//行が変わるのでアンダーラインを消去する
+				bMoveCaretLine = true;
 				break; // これ以上左に動けぬ。
 			}
-			bUnderlineDoNotOFF = false;	//行が変わるのでアンダーラインを消去する
-			bMoveCaretLine = true;
 		}
 		//  2004.03.28 Moca EOFだけの行以降の途中にカーソルがあると落ちるバグ修正
 		else if( pcLayout ) {

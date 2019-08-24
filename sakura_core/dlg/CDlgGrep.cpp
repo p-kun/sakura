@@ -283,6 +283,8 @@ int CDlgGrep::DoModal( HINSTANCE hInstance, HWND hwndParent, const WCHAR* pszCur
 		wcscpy(m_szCurrentFilePath, pszCurrentFilePath);
 	}
 
+	::GetCurrentDirectory( _MAX_PATH, m_szFolder );
+
 	return (int)CDialog::DoModal( hInstance, hwndParent, IDD_GREP, (LPARAM)NULL );
 }
 

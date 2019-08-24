@@ -329,7 +329,7 @@ void _DrawEOL(
 	gr.SetPen( pColor );
 
 	switch( cEol.GetType() ){
-	case EOL_CRLF:	//	下左矢印
+	case EOL_LF:	//	下左矢印
 		{
 			sx = rcEol.left;						//X左端
 			sy = rcEol.top + ( rcEol.Height() / 2);	//Y中心
@@ -399,7 +399,7 @@ void _DrawEOL(
 			}
 		}
 		break;
-	case EOL_LF:	//	下向き矢印	// 2007.08.17 ryoji EOL_CR -> EOL_LF
+	case EOL_CRLF:	//	下向き矢印	// 2007.08.17 ryoji EOL_CR -> EOL_LF
 	// 2013.04.22 Moca NEL,LS,PS対応。暫定でLFと同じにする
 		{
 			sx = rcEol.left + ( rcEol.Width() / 2 );
